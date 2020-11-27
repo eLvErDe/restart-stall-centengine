@@ -1,0 +1,27 @@
+[Unit]
+Description=Restart stall centreon engine
+After=network.target time-sync.target syslog.target
+
+[Service]
+Environment=STATUS_DAT_PATH=/var/log/centreon-engine/status.dat
+Environment=STATUS_DAT_MAX_MIN=5
+Environment=ENGINE_USERNAME=centreon-engine
+Environment=ENGINE_RESTART_CMD=systemctl restart centengine
+Environment=EMAIL_ADDR=root
+EnvironmentFile=-/etc/default/restart-stall-centengine
+EnvironmentFile=-/etc/sysconfig/restart-stall-centengine
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/sbin/restart_stall_centengine.py \
+          --status-dat-path '${STATUS_DAT_PATH}' \
+          --status-dat-max-min '${STATUS_DAT_MAX_MIN}' \
+          --engine-username '${ENGINE_USERNAME}' \
+          --engine-restart-cmd '${ENGINE_RESTART_CMD}' \
+          --email-addr ${EMAIL_ADDR}
+User=root
+Group=root
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=restart-stall-centengine
+
+[Install]
+WantedBy=multi-user.target
