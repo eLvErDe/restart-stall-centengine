@@ -6,7 +6,7 @@ After=network.target time-sync.target syslog.target
 Environment=STATUS_DAT_PATH=/var/log/centreon-engine/status.dat
 Environment=STATUS_DAT_MAX_MIN=5
 Environment=ENGINE_USERNAME=centreon-engine
-Environment=ENGINE_RESTART_CMD=systemctl restart centengine
+Environment="ENGINE_RESTART_CMD=systemctl restart centengine"
 Environment=EMAIL_ADDR=root
 EnvironmentFile=-/etc/default/restart-stall-centengine
 EnvironmentFile=-/etc/sysconfig/restart-stall-centengine
